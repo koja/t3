@@ -1,0 +1,10 @@
+#!/bin/bash
+
+grep -inr todo ../../src
+grep -inr todo ../../test
+
+grep -inr xxx ../../src
+grep -inr xxx ../../test
+
+grep -inr fixme ../../src
+grep -inr fixme ../../test

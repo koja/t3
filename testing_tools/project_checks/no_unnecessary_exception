@@ -1,0 +1,9 @@
+#!/bin/bash
+
+exceptions=$(grep -rn ":\s*exception_intf" ../../src | sed -E "s/.*\s([a-z_]+)\s*:\s*exception_intf.*/\1/g" | sort | uniq)
+
+for exception in $exceptions; do
+    if ! grep -rn "$exception" ../../src | grep throw | grep -v "@throw" > /dev/null; then
+      echo $exception
+    fi
+done

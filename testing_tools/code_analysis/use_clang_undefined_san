@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# build debug target
+mkdir -p tmp/clang_undefined_san
+cd tmp/clang_undefined_san
+cmake \
+    -DCMAKE_CXX_COMPILER=clang++ \
+    -DCMAKE_CXX_FLAGS="-fsanitize=undefined,unsigned-integer-overflow -fno-omit-frame-pointer -O1" \
+    -DCMAKE_BUILD_TYPE=Debug \
+    ../../../../
+make
+
+./test-bot --log_level=nothing
+printf 'c\nn\nc\nn\n' | ./t3
+printf 'c\np\nc\nn\n' | ./t3
+printf 'c\nn\nc\np\n' | ./t3
+printf 'c\np\nc\np\n' | ./t3

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# build debug target
+mkdir -p tmp/valgrind
+cd tmp/valgrind
+cmake -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=Debug ../../../../
+make
+
+# check all binaries
+VALGRIND_CMD="valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --partial-loads-ok=no"
+$VALGRIND_CMD ./test-bot --log_level=nothing
+printf 'c\nn\nc\nn\n' | $VALGRIND_CMD ./t3
+printf 'c\np\nc\nn\n' | $VALGRIND_CMD ./t3
+printf 'c\nn\nc\np\n' | $VALGRIND_CMD ./t3
+printf 'c\np\nc\np\n' | $VALGRIND_CMD ./t3

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# build debug target
+mkdir -p tmp/clang_analyzer
+cd tmp/clang_analyzer
+
+scan-build --use-c++=/usr/bin/clang++ cmake -DCMAKE_BUILD_TYPE=Debug ../../../../
+scan-build --use-c++=/usr/bin/clang++ make

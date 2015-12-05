@@ -1,0 +1,4 @@
+#!/bin/bash
+
+grep -rn "$(printf '\t')" ../../src
+grep -rn "$(printf '\t')" ../../test

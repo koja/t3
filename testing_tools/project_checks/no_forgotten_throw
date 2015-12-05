@@ -1,0 +1,9 @@
+#!/bin/bash
+# grepping for constructed but unthrown exception instances
+
+exceptions=$(grep -rn ":\s*exception_intf" ../../src | sed -E "s/.*\s([a-z_]+)\s*:\s*exception_intf.*/\1/g" | sort | uniq)
+
+for exception in $exceptions; do
+    grep -rn "$exception()" ../../src | grep -v throw
+    grep -rn "$exception{}" ../../src | grep -v throw
+done

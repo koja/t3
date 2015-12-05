@@ -1,0 +1,8 @@
+#!/bin/bash
+
+for dir in "src" "test"
+do
+    cppcheck -q --enable=all --inconclusive  "../../$dir"
+done
+
+

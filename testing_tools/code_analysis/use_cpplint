@@ -1,0 +1,16 @@
+#!/bin/bash
+
+for dir in "src" "test"
+do
+find "../../$dir" -name "*.[ch]pp" | xargs \
+./cpplint.py --verbose=0 --extensions=hpp,cpp --linelength=120 --filter=\
+-legal/copyright,\
+-readability/braces,\
+-runtime/references,-runtime/int,\
+-whitespace/parens,-whitespace/braces,-whitespace/indent,-whitespace/blank_line,-whitespace/operators
+done
+
+
+
+
+

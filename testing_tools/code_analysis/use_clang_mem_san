@@ -1,0 +1,23 @@
+#!/bin/bash
+
+echo "Unfortunately for the time being - memory sanitizer (clang < 3.7.1) is not working for kernel < 4.1.2"
+echo "https://progressive-comp.com/?l=llvm-commits&m=144434023624877&w=2"
+echo "https://github.com/avr-llvm/llvm/commit/22628d4493d5f5443ebed27ae5efc93ef83389cd"
+echo "http://llvm.org/releases/"
+exit 1
+
+# build debug target
+mkdir -p tmp/clang_mem_san
+cd tmp/clang_mem_san
+cmake \
+    -DCMAKE_CXX_COMPILER=clang++ \
+    -DCMAKE_CXX_FLAGS="-fsanitize=memory -fno-omit-frame-pointer -fno-optimize-sibling-calls -O1" \
+    -DCMAKE_BUILD_TYPE=Debug \
+    ../../../../
+make
+
+./test-bot --log_level=nothing
+printf 'b\nn\nb\nn\n' | ./t3
+printf 'b\np\nb\nn\n' | ./t3
+printf 'b\nn\nb\np\n' | ./t3
+printf 'b\np\nb\np\n' | ./t3

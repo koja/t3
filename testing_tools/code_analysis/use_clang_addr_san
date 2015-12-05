@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# build debug target
+mkdir -p tmp/clang_addr_san
+cd tmp/clang_addr_san
+cmake \
+    -DCMAKE_CXX_COMPILER=clang++ \
+    -DCMAKE_CXX_FLAGS="-fsanitize=address -fno-omit-frame-pointer -O1" \
+    -DCMAKE_BUILD_TYPE=Debug \
+    ../../../../
+make
+
+#export ASAN_OPTIONS="verbosity=1"
+./test-bot --log_level=nothing
+printf 'c\nn\nc\nn\n' | ./t3
+printf 'c\np\nc\nn\n' | ./t3
+printf 'c\nn\nc\np\n' | ./t3
+printf 'c\np\nc\np\n' | ./t3

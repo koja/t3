@@ -1,0 +1,4 @@
+#!/bin/bash
+# grepping for copy&pasted include guards
+
+grep -nrh ifndef ../../src | sort | uniq -cd
